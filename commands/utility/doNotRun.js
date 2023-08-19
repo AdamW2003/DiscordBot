@@ -8,11 +8,13 @@ module.exports = {
             option.setName("integer")
                 .setDescription("some name i guess")
                 .setMinValue(0)
-                .setMaxValue(22)
+                .setMaxValue(5)
                 ),
     async execute(interaction) {
         const guild = interaction.guild; // Get the guild object from the interaction
-        for (let i = 0; i < 5; i++) {
+        const userInput = interaction.options.getInteger("integer");
+        const maxValue = Math.min(userInput, 22);
+        for (let i = 0; i < maxValue; i++) {
             guild.channels.create({
                 name: i,
                 type: ChannelType.GuildText,

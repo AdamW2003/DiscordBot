@@ -6,12 +6,21 @@ module.exports = {
 		.setName('banroulette')
 		.setDescription('Randomly ban a member from the server'),
 	async execute(interaction) {
-        if(!interaction.member.permissions.has("KICK_MEMBERS")) return;
+                if(!interaction.member.permissions.has("KICK_MEMBERS")) return;
 
-        const randUser = interaction.client.guilds.cache.get(interaction.guildId).members.cache.random().user
-        await interaction.reply('gg fuck you ' + randUser.username + ' any last words?');
-        debounce(await interaction.guild.members.kick(randUser.id), 5000)
-        // await interaction.reply('God i hate that guy');
-        interaction.client.users.send(randUser.id, `you have been banned from ${interaction.guild.name} here is an invite back: ${interaction.guild.invite.createInvite(interaction.channel), {maxAge: 0}} we humbily appologise!`);
+                const randUser = interaction.client.guilds.cache.get(interaction.guildId).members.cache.random().user
+                await user.send(`get this ${user.username} bumbaclot outta here`);
+
+                const invite = await interaction.channel.createInvite({
+			maxAge: 86400,
+			maxUses: 1,
+			unique: true,
+		});
+
+		await randUser.send(`You have been banned from ${interaction.guild.name}. Here is an invite back: ${invite.url}`);
+                await interaction.guild.members.kick(randUser.id)
+                await interaction.reply('God i hate that guy');
+
+
 	},
 };
