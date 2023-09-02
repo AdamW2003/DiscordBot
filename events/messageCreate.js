@@ -2,27 +2,52 @@ const { Events } = require('discord.js');
 
 module.exports = {
     name: Events.MessageCreate,
-    async execute(message) { // Changed 'interaction' to 'message' for consistency
-        const user = message.author; // Changed 'message.user' to 'message.author'
-        const guild = message.guild; // Changed 'interaction.guild' to 'message.guild'
+    async execute(message, client, prefix, openai) {
+        console.log(openai)
+        const user = message.author;
+        const guild = message.guild;
 
         console.log(`${user.tag} in #${message.channel.name} sent: ${message.content}`);
 
         if (user.bot) return;
 
-        if (user.id === '527780756643381249') {
-            await message.reply('blah blah blah');
-            await message.reply('stop typing');
 
-            const invite = await message.channel.createInvite({
-                maxAge: 86400,
-                maxUses: 1,
-                unique: true,
-            });
+        switch(user.id){
+            case "":
+                await message.reply(user.name);
+                break;
 
-            await user.send(`You have been banned from ${guild.name}. Here is an invite back: ${invite.url}`);
-
-            await guild.members.kick(user.id);
+            case "":
+                await message.reply('blah blah blah');
+    
+                const invite = await message.channel.createInvite({
+                    maxAge: 86400,
+                    maxUses: 1,
+                    unique: true,
+                });
+    
+                await user.send(`You have been banned from ${guild.name}. Here is an invite back: ${invite.url}`);
+    
+                await guild.members.kick(user.id);
+                break;
+            case "":
+                const content = `in the tone of a 50s fast talking Italian American gangster create an insult for someone named ${user.name}`
+                const response = await openai.chat.completions.create({
+                    model: 'gpt-3.5-turbo',
+                    messages: [
+                        {
+                            // name: 
+                            role: 'user',
+                            content: content
+                        }
+                    ]
+                }).catch((error) => console.error('openAI Error:\n', error))
+                message.reply(response)
+                console.log(response);
+                break;
         }
+
+
+
     },
 };

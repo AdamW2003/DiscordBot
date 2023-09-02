@@ -1,8 +1,11 @@
-// const dotenv = require('dotenv').config()
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { prefix, token } = require('./config.json');
+const { OpenAI } = require("openai");
+require('dotenv').config()
+
+const openai = new OpenAI({apiKey:process.env.OPENAI_API_KEY})
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, 
 									GatewayIntentBits.GuildMessages, 
@@ -29,10 +32,10 @@ for (const file of eventFiles) {
 	const filePath = path.join(eventsPath, file);
 	const event = require(filePath);
 	if (event.once) {
-		client.once(event.name, (...args) => event.execute(...args, client, prefix));
+		client.once(event.name, (...args) => event.execute(...args, client, prefix, openai));
 	} else {
-		client.on(event.name, (...args) => event.execute(...args, client, prefix));
+		client.on(event.name, (...args) => event.execute(...args, client, prefix, openai));
 	}
 }
 
-client.login(token);
+client.login(process.env.TOKEN);
