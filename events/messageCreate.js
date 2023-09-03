@@ -1,8 +1,9 @@
 const { Events } = require("discord.js");
+const { channelType } = require("../constants/enums");
 
 module.exports = {
   name: Events.MessageCreate,
-  async execute(message, client, prefix, db) {
+  async execute(message, _, __, db) {
     const user = message.author;
     const guild = message.guild;
 
@@ -12,16 +13,36 @@ module.exports = {
 
     if (user.bot) return;
 
-    const count = await db.users.count({
+    const userMessageCount = await db.users.findOne({
       where: { userId: message.author.id },
+      attributes: ["messageCount"],
     });
 
-    if (count === 0) {
+    if (userMessageCount == null) {
       await db.users.create({
         userName: message.author.username,
         userId: message.author.id,
         avatarId: message.author.avatar,
       });
+    } else {
+      const newCount = userMessageCount.messageCount + 1;
+      await db.users.update(
+        { messageCount: newCount },
+        { where: { userId: message.author.id } }
+      );
+    }
+
+    const channel = await db.channels.findOne({
+      where: { channelId: message.channelId },
+    });
+
+    if (channel == null){
+        await db.channels.create({
+            channelId: message.channelId,
+            channelType: channelType.text,
+            channelName: message.channel.name,
+            guildId: message.guildId,
+          });
     }
 
     await db.messages.create({
@@ -30,7 +51,6 @@ module.exports = {
       channelId: message.channel.id,
       userId: message.author.id,
     });
-
 
     // switch(user.id){
     //     case "":

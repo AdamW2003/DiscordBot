@@ -1,5 +1,3 @@
-const messages = require("./messages");
-
 module.exports = (sequelize, Sequelize) => {
   const users = sequelize.define("users", {
     userName: {
@@ -14,6 +12,11 @@ module.exports = (sequelize, Sequelize) => {
     avatarId: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    messageCount: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 1
     }
   });
 

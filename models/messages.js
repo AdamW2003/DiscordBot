@@ -1,5 +1,3 @@
-const users = require("./users");
-
 module.exports = (sequelize, Sequelize) => {
     const messages = sequelize.define("messages", {
       messageId: {
@@ -18,11 +16,12 @@ module.exports = (sequelize, Sequelize) => {
       userId: {
         type: Sequelize.STRING,
         allowNull: false,
-      }
+      },
     });
   
     messages.associate = function(models) {
         messages.belongsTo(models.users, { foreignKey: 'userId', as: 'user', sourceKey: 'userId' })
+        messages.belongsTo(models.channels, { foreignKey: 'channelId', as: 'channel', sourceKey: 'channelId' })
     };
   
     return messages;

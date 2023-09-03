@@ -5,8 +5,11 @@ const {
   prefix,
   token,
 } = require("./config/config.json");
-
 const db = require("./models");
+const { backgroundProcess } = require('./backgroundProcesses/backgroundservice');
+
+backgroundProcess.start();
+console.log("background process running")
 
 db.sequelize.sync({ force: true })
   .then(() => {
@@ -23,6 +26,7 @@ const client = new Client({
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildPresences,
+	GatewayIntentBits.GuildVoiceStates,
   ],
 });
 
