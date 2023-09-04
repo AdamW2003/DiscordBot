@@ -1,22 +1,22 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
-const {
-  prefix,
-  token,
-} = require("./config/config.json");
+const { prefix, token } = require("./config/config.json");
 const db = require("./models");
-const { backgroundProcess } = require('./backgroundProcesses/backgroundservice');
+const {
+  backgroundProcess,
+} = require("./backgroundProcesses/backgroundservice");
 
 backgroundProcess.start();
-console.log("background process running")
+console.log("background process running");
 
-db.sequelize.sync({ force: true })
+db.sequelize
+  .sync({ force: true })
   .then(() => {
-    console.log('Models synced with the database');
+    console.log("Models synced with the database");
   })
   .catch((error) => {
-    console.error('Error syncing models:', error);
+    console.error("Error syncing models:", error);
   });
 
 const client = new Client({
@@ -26,7 +26,7 @@ const client = new Client({
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildPresences,
-	GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildVoiceStates,
   ],
 });
 

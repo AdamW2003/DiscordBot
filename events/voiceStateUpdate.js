@@ -4,7 +4,6 @@
 // module.exports = {
 // 	name: Events.VoiceStateUpdate,
 // 	async execute(interaction, client, prefix, db) {
-// 		console.log(interaction)
 
 //         if (interaction.channelId == null){
 
