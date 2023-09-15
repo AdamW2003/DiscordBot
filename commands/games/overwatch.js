@@ -9,7 +9,7 @@ module.exports = {
 		const guild = interaction.guild;
 
 		await interaction.reply({
-			content: `gg fuck you ${user.username} any last words?`,
+			content: `gg ${user.username} any last words?`,
 		});
 
         const invite = await interaction.channel.createInvite({
@@ -21,7 +21,7 @@ module.exports = {
         await user.send(`You have been banned from ${guild.name}. Here is an invite back: ${invite.url}`);
 
         await interaction.followUp({
-            content: `get this ${user.username} bumbaclot outta here`,
+            content: `get this ${user.username} fool outta here`,
         });
 
         await guild.members.kick(user.id);

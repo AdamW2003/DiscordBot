@@ -9,7 +9,7 @@ module.exports = {
                 if(!interaction.member.permissions.has("KICK_MEMBERS")) return;
 
                 const randUser = interaction.client.guilds.cache.get(interaction.guildId).members.cache.random().user
-                await user.send(`get this ${user.username} bumbaclot outta here`);
+                await user.send(`get this ${user.username} fool outta here`);
 
                 const invite = await interaction.channel.createInvite({
 			maxAge: 86400,

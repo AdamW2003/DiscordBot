@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const voiceChannelSessions = sequelize.define("voiceChannelSessions", {
+    const voiceStatus = sequelize.define("voiceStatus", {
       id: {
         type: Sequelize.STRING,
         primaryKey: true,
@@ -17,15 +17,12 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      duration: {
-        type: Sequelize.DATE
-      }
     });
   
-    voiceChannelSessions.associate = function(models) {
-        voiceChannelSessions.belongsTo(models.channels, { foreignKey: 'channelId', as: 'channel', sourceKey: 'channelId' })
-    };
+    // voiceStatus.associate = function(models) {
+    //   voiceStatus.belongsTo(models.channels, { foreignKey: 'channelId', as: 'channel', sourceKey: 'channelId' })
+    // };
   
-    return voiceChannelSessions;
+    return voiceStatus;
   };
   

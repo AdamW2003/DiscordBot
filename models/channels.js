@@ -19,9 +19,9 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  channels.associate = function (models) {
-    channels.hasMany(models.messages, { as: "messages" });
-  };
+  // channels.associate = function (models) {
+  //   channels.hasMany(models.messages, { as: "messages" });
+  // };
 
   return channels;
 };

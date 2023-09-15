@@ -20,9 +20,9 @@ module.exports = (sequelize, Sequelize) => {
     }
   });
 
-  users.associate = function(models) {
-    users.hasMany(models.messages, {as: 'messages'})
-  };
+  // users.associate = function(models) {
+  //   users.hasMany(models.messages, {as: 'messages'})
+  // };
 
   return users;
 };

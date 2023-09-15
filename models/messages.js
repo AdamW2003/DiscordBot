@@ -19,10 +19,10 @@ module.exports = (sequelize, Sequelize) => {
       },
     });
   
-    messages.associate = function(models) {
-        messages.belongsTo(models.users, { foreignKey: 'userId', as: 'user', sourceKey: 'userId' })
-        messages.belongsTo(models.channels, { foreignKey: 'channelId', as: 'channel', sourceKey: 'channelId' })
-    };
+    // messages.associate = function(models) {
+    //     messages.belongsTo(models.users, { foreignKey: 'userId', as: 'user', sourceKey: 'userId' })
+    //     messages.belongsTo(models.channels, { foreignKey: 'channelId', as: 'channel', sourceKey: 'channelId' })
+    // };
   
     return messages;
   };
