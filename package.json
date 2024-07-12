@@ -5,9 +5,6 @@
   "dependencies": {
     "cron": "^2.4.3",
     "discord.js": "^14.11.0",
-    "dotenv": "^16.3.1",
-    "mysql2": "^3.6.0",
-    "openai": "^4.4.0",
-    "sequelize": "^6.32.1"
+    "dotenv": "^16.3.1"
   }
 }
