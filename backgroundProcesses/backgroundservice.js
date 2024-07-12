@@ -1,7 +1,17 @@
 const { CronJob } = require('cron');
-console.log('this will log before job instantiation');
-const backgroundProcess = new CronJob('*/1 * * * *', () => {
-  console.log('cron is executing now. timestamp: ', new Date());
-})
-console.log('this will log after job instantiation');
-module.exports = { backgroundProcess };
+
+function createBackgroundProcess(client) {
+  return new CronJob('*/5 * * * * *', async () => {    
+    console.log('Cron is executing now. Timestamp: ', new Date());
+    try {
+      const channel = await client.channels.fetch('1261307526885019678');
+      if (channel) {
+        await channel.send('🍻🍺');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  });
+}
+
+module.exports = { createBackgroundProcess };

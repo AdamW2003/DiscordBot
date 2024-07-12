@@ -5,19 +5,8 @@ const {
   prefix,
   token,
 } = require("./config/config.json");
-const db = require("./models");
-const { backgroundProcess } = require('./backgroundProcesses/backgroundservice');
-
-backgroundProcess.start();
-console.log("background process running")
-
-db.sequelize.sync({ force: true })
-  .then(() => {
-    console.log('Models synced with the database');
-  })
-  .catch((error) => {
-    console.error('Error syncing models:', error);
-  });
+const { createBackgroundProcess } = require('./backgroundProcesses/backgroundservice');
+// const { backgroundProcess } = require('./backgroundProcesses/backgroundservice');
 
 const client = new Client({
   intents: [
@@ -26,11 +15,20 @@ const client = new Client({
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildPresences,
-	GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildVoiceStates,
   ],
 });
 
 client.commands = new Collection();
+
+let backgroundProcess;
+
+client.once('ready', () => {
+  console.log('Bot is ready!');
+  backgroundProcess = createBackgroundProcess(client);
+  backgroundProcess.start();
+  console.log("Background process running");
+});
 
 const commandFolders = fs.readdirSync(path.join(__dirname, "commands"));
 
@@ -54,11 +52,11 @@ for (const file of eventFiles) {
   const event = require(filePath);
   if (event.once) {
     client.once(event.name, (...args) =>
-      event.execute(...args, client, prefix, db)
+      event.execute(...args, client, prefix)
     );
   } else {
     client.on(event.name, (...args) =>
-      event.execute(...args, client, prefix, db)
+      event.execute(...args, client, prefix)
     );
   }
 }
